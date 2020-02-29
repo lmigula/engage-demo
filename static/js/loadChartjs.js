@@ -272,7 +272,7 @@ function triggerDownload(imgURI, name) {
     a.setAttribute('target', '_blank');
     // a.dispatchEvent(evt);
     a.click();
-    a.parentNode.removeChild(a);
+    a.remove();
 }
 
 
