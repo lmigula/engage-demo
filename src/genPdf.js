@@ -24,12 +24,12 @@ let randomScalingFactor = function () {
     let result = Math.round(rand(0, 100));
     return result;
 };
-let w = 400;
+let w = 700;
 let h = 300;
 let barPadding = 1;
 
 let dataset = [];
-for (let idx = 0; idx < 10; idx++) {
+for (let idx = 1; idx < 10; idx++) {
     let key = 'Product ' + idx;
     dataset.push(
         {
@@ -41,25 +41,32 @@ for (let idx = 0; idx < 10; idx++) {
 
 console.log('dataset', dataset);
 let xScale = d3.scaleBand()
-    .range([0, w])
-    .padding(0.1)
-    .domain(dataset.map((d) => d.key));
+    .domain(d3.range(dataset.length))
+    .rangeRound([0, w])
+    .paddingInner(0.05);
 
 let yScale = d3.scaleLinear()
-    .range([h, 0])
-    .domain([0, d3.max(dataset, (d) => d.value)]);
+    .domain([0, d3.max(dataset, (d) => d.value)])
+    .range([0, h]);
 
 
-let svgObj = d3n.createSVG().append('g')
+let svgObj = d3n.createSVG()
+    //()  .attr("preserveAspectRatio", "xMinYMin meet")
+    .attr("viewBox", `0 0 ${w} ${h}`)
     .attr('width', w)
-    .attr('height', h);
+    .attr('height', h)
+    .append('g');
+
+// .attr("preserveAspectRatio", "xMinYMin meet")
+// .attr("viewBox", `0 0 ${w} ${h}`);
+
 
 svgObj.selectAll('rect')
     .data(dataset)
     .enter()
     .append('rect')
     .attr('x', function (d, i) {
-        return xScale(d.key);
+        return xScale(i);
     })
     .attr('y', function (d) {
         console.log('y', d.value);
@@ -108,7 +115,7 @@ let docDefinition = {
         {
             // If no width/height/fit is used, then dimensions from the svg element is used.
             svg: d3n.svgString(),
-            fit: [150, 100]
+            fit: [500, 300]
         },
     ],
     defaultStyle: {
