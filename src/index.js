@@ -47,7 +47,7 @@ app.get('/chart-js', function (req, res) {
 
 app.get('/roughViz', function (req, res) {
     res.render('index.njk', {
-        title: 'Chart.js Line Chart',
+        title: 'roughViz.js',
         content: 'Content',
         includePartial: 'partials/roughViz.njk'
     }
